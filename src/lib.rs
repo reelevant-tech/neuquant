@@ -1,19 +1,19 @@
 #![deny(clippy::all)]
 
-use napi::bindgen_prelude::Buffer;
+use napi::bindgen_prelude::*;
 
 #[macro_use]
 extern crate napi_derive;
 
 #[napi(object)]
 pub struct NeuQuantResult {
-  pub indixes: Buffer,
-  pub color_map: Buffer,
+  pub indixes: Uint8Array,
+  pub color_map: Uint8Array
 }
 
 #[napi]
-pub fn neuquant(samplefac: i32, colors: u32, data: Buffer) -> NeuQuantResult {
-  let pixels: Vec<u8> = data.into();
+pub fn neuquant(samplefac: i32, colors: u32, data: Uint8Array) -> NeuQuantResult {
+  let pixels: Vec<u8> = data.to_vec();
   let colors: usize = colors.try_into().unwrap();
 
   let nq = color_quant::NeuQuant::new(samplefac, colors, &pixels);
@@ -21,8 +21,8 @@ pub fn neuquant(samplefac: i32, colors: u32, data: Buffer) -> NeuQuantResult {
   let color_map = nq.color_map_rgba();
 
   NeuQuantResult {
-    indixes: Buffer::from(indixes),
-    color_map: Buffer::from(color_map)
+    indixes: Uint8Array::new(indixes),
+    color_map: Uint8Array::new(color_map)
   }
 }
 

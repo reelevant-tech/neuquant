@@ -10,7 +10,7 @@ export class ExternalObject<T> {
   }
 }
 export interface NeuQuantResult {
-  indixes: Buffer
-  colorMap: Buffer
+  indixes: Uint8Array
+  colorMap: Uint8Array
 }
-export function neuquant(samplefac: number, colors: number, data: Buffer): NeuQuantResult
+export function neuquant(samplefac: number, colors: number, data: Uint8Array): NeuQuantResult
