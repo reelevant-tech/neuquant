@@ -13,4 +13,4 @@ export interface NeuQuantResult {
   indixes: Uint8Array
   colorMap: Uint8Array
 }
-export function neuquant(samplefac: number, colors: number, data: Uint8Array): NeuQuantResult
+export function neuquant(samplefac: number, colors: number, data: Uint8Array): Promise<NeuQuantResult>
