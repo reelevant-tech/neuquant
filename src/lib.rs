@@ -13,7 +13,6 @@ pub struct NeuQuantResult {
 
 #[napi]
 pub fn neuquant(samplefac: i32, colors: u32, data: Buffer) -> NeuQuantResult {
-
   let pixels: Vec<u8> = data.into();
   let colors: usize = colors.try_into().unwrap();
 
