@@ -1,6 +1,7 @@
 #![deny(clippy::all)]
 
 use napi::bindgen_prelude::*;
+mod neuquant;
 
 #[macro_use]
 extern crate napi_derive;
@@ -37,7 +38,7 @@ impl Task for AsyncNeuQuant {
   type JsValue = NeuQuantResult;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    let nq = color_quant::NeuQuant::new(self.samplefac, self.colors, &self.pixels);
+    let nq = neuquant::NeuQuant::new(self.samplefac, self.colors, &self.pixels);
     let indixes: Vec<u8> = self
       .pixels
       .chunks(4)
