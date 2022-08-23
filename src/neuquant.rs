@@ -70,6 +70,7 @@ that this copyright notice remain intact.
 //! ```
 
 use std::cmp::{max, min};
+use rand::prelude::*;
 
 const CHANNELS: usize = 4;
 
@@ -81,10 +82,6 @@ const INIT_ALPHA: i32 = 1 << ALPHA_BIASSHIFT; // biased by 10 bits
 const GAMMA: f64 = 1024.0;
 const BETA: f64 = 1.0 / GAMMA;
 const BETAGAMMA: f64 = BETA * GAMMA;
-
-// four primes near 500 - assume no image has a length so large
-// that it is divisible by all four primes
-const PRIMES: [usize; 4] = [499, 491, 487, 503];
 
 #[inline]
 fn clamp(a: i32) -> i32 {
@@ -350,10 +347,8 @@ impl NeuQuant {
         };
 
         let mut pos = 0;
-        let step = *PRIMES
-            .iter()
-            .find(|&&prime| lengthcount % prime != 0)
-            .unwrap_or(&PRIMES[3]);
+        let mut rng = rand::thread_rng();
+        let step: usize = (rng.gen::<f64>() * lengthcount as f64).floor() as usize;
 
         let mut i = 0;
         while i < samplepixels {
